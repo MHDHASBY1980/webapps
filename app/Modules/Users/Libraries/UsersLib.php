@@ -15,7 +15,8 @@ class UsersLib {
 
     public function getUserByEmail($email) {
         $usersModel = new UsersModel();
-        $user = $usersModel->where('email', $email)
+        $con        = ['email' => $email,'status' => 1];
+        $user = $usersModel->where($con)
                 ->first();
         return $user;
     }
@@ -144,6 +145,7 @@ class UsersLib {
     }
 
     private function setUserLogged($user) {
+        if($user){
         $data = [
             'id' => $user->id,
             'firstname' => $user->firstname,
@@ -153,6 +155,7 @@ class UsersLib {
             'isLoggedIn' => true
         ];
         session()->set($data);
+        }
         return true;
     }
 
